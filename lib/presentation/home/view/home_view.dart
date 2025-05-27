@@ -1,5 +1,6 @@
 import 'package:expense_tracker/constants/app_images.dart';
 import 'package:expense_tracker/presentation/home/controller/home_view_controller.dart';
+import 'package:expense_tracker/routes/app_pages.dart';
 import 'package:expense_tracker/utilities/app_theme.dart';
 import 'package:expense_tracker/widgets/custom_app_bar.dart';
 import 'package:expense_tracker/widgets/custom_floation_action_button.dart';
@@ -27,8 +28,10 @@ class HomeView extends StatelessWidget {
         );
       }),
       floatingActionButton: CustomFloatingActionButton(
-        svgIcon: AppImages.addIcon,
-        onPressed: () {},
+        svgIcon: AppImages.addIconSvg,
+        onPressed: () {
+          Get.toNamed(Routes.ADD_TRANSACTION_SCREEN);
+        },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: Container(
@@ -71,7 +74,7 @@ class HomeView extends StatelessWidget {
                       onPressed: () {
                         controller.currentTabIndex.value = 0;
                       },
-                      icon: buildSvgIconWidget(assetName: "grid_squares", isSelected: controller.currentTabIndex.value == 0, height: 30),
+                      icon: buildSvgIconWidget(assetName: AppImages.gridSquareSvg, isSelected: controller.currentTabIndex.value == 0, height: 30),
                     );
                   }),
                   const Spacer(),
@@ -80,7 +83,7 @@ class HomeView extends StatelessWidget {
                       onPressed: () {
                         controller.currentTabIndex.value = 1;
                       },
-                      icon: buildSvgIconWidget(assetName: "bar_chart_square", isSelected: controller.currentTabIndex.value == 1),
+                      icon: buildSvgIconWidget(assetName: AppImages.barChartSvg, isSelected: controller.currentTabIndex.value == 1),
                     );
                   }),
                 ],
@@ -100,7 +103,7 @@ class HomeView extends StatelessWidget {
         Padding(
           padding: padding ?? const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
           child: SvgPicture.asset(
-            "assets/icons/$assetName.svg",
+            assetName,
             height: height,
             width: width,
             colorFilter: ColorFilter.mode(
