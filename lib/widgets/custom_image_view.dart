@@ -125,7 +125,7 @@ class CustomImageView extends StatelessWidget {
                 height: height,
                 width: width,
                 fit: fit ?? BoxFit.contain,
-                color: color,
+                colorFilter: color != null ? ColorFilter.mode(color!, BlendMode.srcIn) : null,
               ),
             )
           : SizedBox(
@@ -159,7 +159,7 @@ class CustomImageView extends StatelessWidget {
             const SizedBox(
               height: 30,
               width: 30,
-              child:  LinearProgressIndicator(
+              child: LinearProgressIndicator(
                 color: AppTheme.grey300Color,
                 backgroundColor: AppTheme.success50,
               ),
