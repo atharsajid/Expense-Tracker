@@ -11,11 +11,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool isHome;
   final bool showBackIcon;
   final void Function()? onBackIconPressed;
+  final String? title;
   const CustomAppBar({
     super.key,
     this.isHome = false,
     this.showBackIcon = false,
     this.onBackIconPressed,
+    this.title,
   });
 
   @override
@@ -27,7 +29,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       forceMaterialTransparency: true,
       surfaceTintColor: AppTheme.lightColor,
       elevation: 1,
-      titleSpacing: getSize(showBackIcon ? 24 : 16),
+      titleSpacing: getSize(16),
       leading: showBackIcon
           ? IconButton(
               onPressed: onBackIconPressed,
@@ -39,7 +41,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: Visibility(
         visible: isHome,
         replacement: Text(
-          AppStrings.appName,
+          title ?? AppStrings.appName,
           style: AppTheme.customFontStyle(
             color: AppTheme.lynch900,
             fontSize: 18,
