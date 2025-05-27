@@ -1,9 +1,15 @@
 class AppImages {
-  static const String addIcon = "assets/icons/plus.svg";
+  static const String appLogo = "assets/icons/logo.png";
   static const String airplaneIcon = "assets/icons/airplane.png";
   static const String bagIcon = "assets/icons/bag.png";
   static const String foodIcon = "assets/icons/food.png";
   static const String rentIcon = "assets/icons/rent.png";
   static const String transportIcon = "assets/icons/transport.png";
-  static const String appLogo = "assets/icons/logo.png";
+  static const String cashIcon = "assets/icons/cash.png";
+
+  static const String addIconSvg = "assets/icons/plus.svg";
+  static const String gridSquareSvg = "assets/icons/grid_squares.svg";
+  static const String barChartSvg = "assets/icons/bar_chart_square.svg";
+  static const String transactionTypeSvg = "assets/icons/shield_dollar.svg";
+  static const String calendarSvg = "assets/icons/calendar_event.svg";
 }
