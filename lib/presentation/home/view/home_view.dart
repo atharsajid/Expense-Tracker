@@ -1,4 +1,5 @@
 import 'package:expense_tracker/constants/app_images.dart';
+import 'package:expense_tracker/domain/models/transaction.dart';
 import 'package:expense_tracker/presentation/home/controller/home_view_controller.dart';
 import 'package:expense_tracker/routes/app_pages.dart';
 import 'package:expense_tracker/utilities/app_theme.dart';
@@ -19,7 +20,7 @@ class HomeView extends StatelessWidget {
       appBar: const CustomAppBar(
         isHome: true,
       ),
-      backgroundColor: AppTheme.baseColor,
+      backgroundColor: AppTheme.lightColor,
       body: Obx(() {
         return SizedBox(
           width: size.width,
@@ -30,7 +31,11 @@ class HomeView extends StatelessWidget {
       floatingActionButton: CustomFloatingActionButton(
         svgIcon: AppImages.addIconSvg,
         onPressed: () {
-          Get.toNamed(Routes.ADD_TRANSACTION_SCREEN);
+          Get.toNamed(Routes.ADD_TRANSACTION_SCREEN)?.then((value) {
+            if (value is Transaction) {
+              controller.transactionList.insert(0, value);
+            }
+          });
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
