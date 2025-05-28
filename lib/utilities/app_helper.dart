@@ -111,4 +111,69 @@ class Helper {
         return AppTheme.darkColor;
     }
   }
+
+  static Future<DateTimeRange?> showDataRangePicker({
+    required BuildContext context,
+    DateTimeRange? initialDateRange,
+    required DateTime firstDate,
+    required DateTime lastDate,
+  }) async {
+    return await showDateRangePicker(
+      context: context,
+      initialDateRange: initialDateRange,
+      firstDate: firstDate,
+      lastDate: lastDate,
+      saveText: "Confirm",
+      helpText: "Select range or single day",
+      initialEntryMode: DatePickerEntryMode.calendarOnly,
+      builder: (BuildContext context, Widget? child) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          insetPadding: const EdgeInsets.symmetric(vertical: 90.0, horizontal: 12.0),
+          backgroundColor: Colors.white,
+          shadowColor: Colors.white,
+          surfaceTintColor: Colors.white,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(0),
+            child: Theme(
+              data: ThemeData(
+                primaryColor: AppTheme.primaryColor,
+                colorScheme: ColorScheme.fromSeed(
+                  seedColor: AppTheme.primaryColor,
+                  primary: AppTheme.primaryColor,
+                  secondary: AppTheme.secondaryColor,
+                  surface: AppTheme.baseColor,
+                  error: AppTheme.error500Color,
+                ),
+                datePickerTheme: DatePickerThemeData(
+                  backgroundColor: Colors.white,
+                  rangePickerBackgroundColor: Colors.white,
+                  rangePickerHeaderBackgroundColor: Colors.white,
+                  rangePickerShape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  dividerColor: Colors.black,
+                ),
+              ),
+              child: MediaQuery.removePadding(
+                  context: context,
+                  removeBottom: true,
+                  removeTop: true,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20.0),
+                    child: child!,
+                  )),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  /// Check if two dates are equal
+  static bool equals(DateTime? date1, DateTime? date2) {
+    return date1?.day == date2?.day && date1?.month == date2?.month && date1?.year == date2?.year;
+  }
 }

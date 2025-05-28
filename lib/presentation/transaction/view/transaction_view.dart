@@ -1,3 +1,4 @@
+import 'package:expense_tracker/constants/app_images.dart';
 import 'package:expense_tracker/constants/app_strings.dart';
 import 'package:expense_tracker/domain/models/transaction.dart';
 import 'package:expense_tracker/presentation/home/controller/home_view_controller.dart';
@@ -6,6 +7,8 @@ import 'package:expense_tracker/utilities/app_theme.dart';
 import 'package:expense_tracker/utilities/extensions.dart/num_extensions.dart';
 import 'package:expense_tracker/utilities/size_utils.dart';
 import 'package:expense_tracker/widgets/custom_filter_button.dart';
+import 'package:expense_tracker/widgets/custom_image_view.dart';
+import 'package:expense_tracker/widgets/custom_text_field_widget.dart';
 import 'package:expense_tracker/widgets/custom_transaction_tile_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -81,12 +84,13 @@ class TransactionView extends StatelessWidget {
       isScrollControlled: true,
       builder: (_) {
         return DraggableScrollableSheet(
-          initialChildSize: 0.45,
-          maxChildSize: 0.45,
+          initialChildSize: 0.65,
+          maxChildSize: 0.65,
           expand: false,
           builder: (_, scrollController) {
             return Column(
               mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
                   decoration: const BoxDecoration(color: AppTheme.lightColor),
@@ -103,7 +107,60 @@ class TransactionView extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(height: 18),
+                Padding(
+                  padding: getPadding(left: 12, right: 12),
+                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                    Text(
+                      AppStrings.filterBy,
+                      style: AppTheme.customFontStyle(
+                        color: AppTheme.lynch900,
+                        fontWeight: FontWeight.w500,
+                        fontSize: getFontSize(20),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {},
+                      child: Text(
+                        AppStrings.applyFilter,
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                              color: AppTheme.primaryColor,
+                            ),
+                      ),
+                    ),
+                  ]),
+                ),
+                12.verticalSpace,
+                GetBuilder(
+                    init: controller,
+                    id: "date",
+                    builder: (_) {
+                      return Padding(
+                        padding: getPadding(left: 12, right: 12),
+                        child: CustomTextFieldWidget(
+                          controller: controller.filterDateController,
+                          isEnabled: false,
+                          upperLabel: "Date(s)".tr,
+                          hintValue: "Ex. 01 Jan, 2025".tr,
+                          prefixText: Padding(
+                            padding: const EdgeInsets.only(left: 12),
+                            child: CustomImageView(
+                              svgPath: AppImages.calendarSvg,
+                              color: AppTheme.greyColor,
+                            ),
+                          ),
+                          suffixIcon: Icons.keyboard_arrow_down,
+                          onTap: () async => await controller.onDateSelect(context),
+                        ),
+                      );
+                    }),
+                18.verticalSpace,
+                Padding(
+                  padding: getPadding(left: 12),
+                  child: Text(
+                    AppStrings.category,
+                    style: Theme.of(context).textTheme.titleSmall!.copyWith(color: AppTheme.darkColor),
+                  ),
+                ),
                 Expanded(
                     child: Visibility(
                   child: ListView.builder(

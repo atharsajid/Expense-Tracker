@@ -4,4 +4,7 @@ class AppStrings {
   static const String transactions = 'Transactions';
   static const String transactionAddedSuccessfullyMsg = 'Transaction added successfully';
   static const String someThingWentWrongMsg = 'Some thing went wrong!';
+  static const String filterBy = 'Filter By';
+  static const String applyFilter = 'Apply Filter';
+  static const String category = 'Category';
 }
