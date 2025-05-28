@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:expense_tracker/data/services/local_storage_service.dart';
 import 'package:expense_tracker/routes/app_pages.dart';
 import 'package:expense_tracker/utilities/app_theme.dart';
 import 'package:expense_tracker/widgets/custom_error_widget.dart';
@@ -11,6 +12,7 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 void main() {
   runZonedGuarded<Future<void>>(() async {
     WidgetsFlutterBinding.ensureInitialized();
+    await LocalStorageService.initLocalStorage();
     await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     if (kReleaseMode) {
       setErrorBuilder();
