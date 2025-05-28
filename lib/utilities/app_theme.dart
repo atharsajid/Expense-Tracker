@@ -1,3 +1,4 @@
+import 'package:expense_tracker/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 
 class AppTheme {
@@ -28,6 +29,8 @@ class AppTheme {
   static const Color darkColor2 = Color(0xFF222029);
   static const Color lynch900 = Color(0xff333947); //950
   static const Color darkColorLynch = Color(0xFF22252F); //950
+  static const Color selectedTileColor = Color(0xFFa6c8ff);
+
 
   static const Color grey900 = Color(0xFF101828);
 
@@ -122,12 +125,12 @@ class AppTheme {
 
   /// custom text-theme style
   static TextStyle customFontStyle({
-    double fontSize = 16,
+    double? fontSize = 16,
     Color color = Colors.black,
     FontWeight fontWeight = FontWeight.normal,
     double? lineHeight,
     double? letterSpacing,
-    String? fontFamily = "Inter",
+    String? fontFamily = AppConstants.appFont,
     TextDecoration textDecoration = TextDecoration.none,
   }) =>
       TextStyle(
