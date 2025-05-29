@@ -1,6 +1,8 @@
 import 'package:expense_tracker/constants/app_images.dart';
 import 'package:expense_tracker/domain/models/transaction.dart';
+import 'package:expense_tracker/presentation/dashboard/view/dashboard_view.dart';
 import 'package:expense_tracker/presentation/home/controller/home_view_controller.dart';
+import 'package:expense_tracker/presentation/transaction/view/transaction_view.dart';
 import 'package:expense_tracker/routes/app_pages.dart';
 import 'package:expense_tracker/utilities/app_theme.dart';
 import 'package:expense_tracker/widgets/custom_app_bar.dart';
@@ -21,19 +23,31 @@ class HomeView extends StatelessWidget {
         isHome: true,
       ),
       backgroundColor: AppTheme.lightColor,
-      body: Obx(() {
-        return SizedBox(
-          width: size.width,
-          height: size.height,
-          child: controller.homeTabs[controller.currentTabIndex.value],
-        );
-      }),
+      body: GetBuilder(
+          init: controller,
+          builder: (_) {
+            return Obx(() {
+              return SizedBox(
+                width: size.width,
+                height: size.height,
+                child: [
+                  DashboardView(
+                    transactionList: controller.transactionList,
+                  ),
+                  TransactionView(
+                    transactionList: controller.transactionList,
+                  ),
+                ][controller.currentTabIndex.value],
+              );
+            });
+          }),
       floatingActionButton: CustomFloatingActionButton(
         svgIcon: AppImages.addIconSvg,
         onPressed: () {
           Get.toNamed(Routes.ADD_TRANSACTION_SCREEN)?.then((value) {
             if (value is Transaction) {
               controller.transactionList.insert(0, value);
+              controller.update();
             }
           });
         },

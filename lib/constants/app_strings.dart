@@ -17,6 +17,7 @@ class AppStrings {
   static const String thisMonth = 'This Month';
   static const String lastMonth = 'Last Month';
   static const String thisYear = 'This Year';
+  static const String selectMonth = 'Select Month';
   static const String transactionSummary = 'Transaction Summary';
   static const String amount = 'Amount';
   static const String date = 'Date';

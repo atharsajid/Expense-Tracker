@@ -176,4 +176,9 @@ class Helper {
   static bool equals(DateTime? date1, DateTime? date2) {
     return date1?.day == date2?.day && date1?.month == date2?.month && date1?.year == date2?.year;
   }
+
+  /// Check if month of two dates are equal
+  static bool equalsMonth(DateTime? date1, DateTime? date2) {
+    return date1?.month == date2?.month && date1?.year == date2?.year;
+  }
 }
