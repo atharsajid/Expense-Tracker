@@ -180,13 +180,9 @@ class AddTransactionView extends StatelessWidget {
               controller: controller.descriptionController,
               upperLabel: "Description".tr,
               hintValue: "Enter Description".tr,
-              asterisk: "\u{002A}",
               maxLength: 250,
               minLines: 3,
               maxLines: 3,
-              validator: (value) => Validators.required(
-                value,
-              ),
               textCapitalization: TextCapitalization.none,
               type: TextInputType.text,
               showStaticBottomShadow: true,
