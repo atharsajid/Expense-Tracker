@@ -1,7 +1,6 @@
 import 'package:expense_tracker/constants/app_images.dart';
 import 'package:expense_tracker/constants/app_strings.dart';
 import 'package:expense_tracker/domain/models/transaction.dart';
-import 'package:expense_tracker/presentation/home/controller/home_view_controller.dart';
 import 'package:expense_tracker/presentation/transaction/controller/transaction_controller.dart';
 import 'package:expense_tracker/utilities/app_theme.dart';
 import 'package:expense_tracker/utilities/extensions.dart/num_extensions.dart';
@@ -10,17 +9,20 @@ import 'package:expense_tracker/widgets/custom_filter_button.dart';
 import 'package:expense_tracker/widgets/custom_image_view.dart';
 import 'package:expense_tracker/widgets/custom_text_field_widget.dart';
 import 'package:expense_tracker/widgets/custom_transaction_tile_widget.dart';
+import 'package:expense_tracker/widgets/empty_space_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class TransactionView extends StatelessWidget {
-  const TransactionView({super.key});
+  final List<Transaction> transactionList;
+  const TransactionView({super.key, this.transactionList = const []});
 
   TransactionController get controller => Get.put(TransactionController());
-  HomeViewController get homeController => Get.put(HomeViewController());
 
   @override
   Widget build(BuildContext context) {
+    controller.transactionListWhole = transactionList;
+    controller.transactionList.value = transactionList;
     return GetBuilder(
         init: controller,
         builder: (_) {
@@ -36,7 +38,7 @@ class TransactionView extends StatelessWidget {
                       style: AppTheme.customFontStyle(color: AppTheme.lynch900, fontSize: getFontSize(24), fontWeight: FontWeight.bold),
                     ),
                     Obx(() {
-                      final bool isSelected = controller.selectedCategory.value != null;
+                      final bool isSelected = controller.selectedCategory.value != null || controller.filterDateController.text.isNotEmpty;
                       return CustomFilterButton(
                         size: const Size(34, 34),
                         bgColor: isSelected ? AppTheme.primaryColor : AppTheme.lightColor,
@@ -52,20 +54,33 @@ class TransactionView extends StatelessWidget {
               ),
               18.verticalSpace,
               Obx(() {
-                return Expanded(
-                  child: ListView.separated(
-                      itemCount: homeController.transactionList.length,
-                      shrinkWrap: true,
-                      padding: getPadding(left: 16, right: 16, top: 16, bottom: 32),
-                      separatorBuilder: (context, index) {
-                        return 12.verticalSpace;
-                      },
-                      itemBuilder: (context, index) {
-                        Transaction element = homeController.transactionList[index];
-                        return CustomTransactionTileWidget(
-                          element: element,
-                        );
-                      }),
+                return Visibility(
+                  visible: controller.transactionList.isNotEmpty,
+                  replacement: Padding(
+                    padding: getPadding(top: size.width * 0.4),
+                    child: EmptySpaceWidget(
+                      size: size,
+                      text: (controller.selectedCategory.value != null || controller.filterDateController.text.isNotEmpty)
+                          ? AppStrings.noTransactionFound
+                          : AppStrings.noTransactionCreatedYet,
+                      bgColor: AppTheme.lightColor,
+                    ),
+                  ),
+                  child: Expanded(
+                    child: ListView.separated(
+                        itemCount: controller.transactionList.length,
+                        shrinkWrap: true,
+                        padding: getPadding(left: 16, right: 16, top: 16, bottom: 32),
+                        separatorBuilder: (context, index) {
+                          return 12.verticalSpace;
+                        },
+                        itemBuilder: (context, index) {
+                          Transaction element = controller.transactionList[index];
+                          return CustomTransactionTileWidget(
+                            element: element,
+                          );
+                        }),
+                  ),
                 );
               }),
             ],
@@ -82,6 +97,7 @@ class TransactionView extends StatelessWidget {
       context: context,
       clipBehavior: Clip.hardEdge,
       isScrollControlled: true,
+      isDismissible: false,
       builder: (_) {
         return DraggableScrollableSheet(
           initialChildSize: 0.65,
@@ -109,7 +125,7 @@ class TransactionView extends StatelessWidget {
                 ),
                 Padding(
                   padding: getPadding(left: 12, right: 12),
-                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                  child: Row(children: [
                     Text(
                       AppStrings.filterBy,
                       style: AppTheme.customFontStyle(
@@ -118,12 +134,13 @@ class TransactionView extends StatelessWidget {
                         fontSize: getFontSize(20),
                       ),
                     ),
+                    const Spacer(),
                     InkWell(
-                      onTap: () {},
+                      onTap: () => controller.clearFilter(),
                       child: Text(
-                        AppStrings.applyFilter,
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                              color: AppTheme.primaryColor,
+                        AppStrings.clearFilter,
+                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                              color: AppTheme.errorColor,
                             ),
                       ),
                     ),
@@ -139,7 +156,7 @@ class TransactionView extends StatelessWidget {
                         child: CustomTextFieldWidget(
                           controller: controller.filterDateController,
                           isEnabled: false,
-                          upperLabel: "Date(s)".tr,
+                          upperLabel: AppStrings.date,
                           hintValue: "Ex. 01 Jan, 2025".tr,
                           prefixText: Padding(
                             padding: const EdgeInsets.only(left: 12),
@@ -195,7 +212,7 @@ class TransactionView extends StatelessWidget {
                                 contentPadding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
                                 onTap: () {
                                   controller.selectedCategory.value = controller.categoryFilterList[index];
-                                  Get.back();
+                                  controller.applyFilter();
                                 }),
                           );
                         });
