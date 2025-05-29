@@ -20,4 +20,5 @@ class AppImages {
 
   //Images
   static const String bgRipplePatternImage = "assets/images/bg_ripple_pattern_trimmed_left.png";
+  static const String cloudZapSvgImage = "assets/images/cloud_zap.svg";
 }
