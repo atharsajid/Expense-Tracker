@@ -108,7 +108,7 @@ class Helper {
       case 'Shopping':
         return AppTheme.accentColor;
       default:
-        return AppTheme.darkColor;
+        return AppTheme.primaryColor;
     }
   }
 
